@@ -1,5 +1,6 @@
 package co.edu.uniandes.dse.parcialprueba.entities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import uk.co.jemos.podam.common.PodamExclude;
 @Entity
 public class MedicoEntity extends BaseEntity{
     
-  
+   LocalDate fechaNacimiento;
     private String nombre;
     private String registro;
 
