@@ -15,7 +15,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import co.edu.uniandes.dse.parcialprueba.entities.MedicoEntity;
+import co.edu.uniandes.dse.parcialprueba.entities.EspecialidadEntity;
+
 import jakarta.transaction.Transactional;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -23,16 +24,16 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @Transactional
-@Import(MedicoService.class)
-class MedicoServiceTest {
+@Import(EspecialidadService.class)
+public class EspecialidadServiceTest {
     @Autowired
-    private MedicoService medicoService;
+    private EspecialidadService especialidadService;
     @Autowired
     private TestEntityManager entityManager;
 
 	private PodamFactory factory = new PodamFactoryImpl();
 
-	private List<MedicoEntity> medicoList = new ArrayList<>();
+	private List<EspecialidadEntity> especialidadList = new ArrayList<>();
     /**
 	 * Configuración inicial de la prueba.
 	 */
@@ -47,27 +48,27 @@ class MedicoServiceTest {
 	}
     private void insertData() {
 		for (int i = 0; i < 3; i++) {
-			MedicoEntity medicoEntity = factory.manufacturePojo(MedicoEntity.class);
-			entityManager.persist(medicoEntity);
-			medicoList.add(medicoEntity);
+			EspecialidadEntity especialidadEntity = factory.manufacturePojo(EspecialidadEntity.class);
+			entityManager.persist(especialidadEntity);
+			especialidadList.add(especialidadEntity);
 		}
 	}
     @Test
-    void testCrearMedico() {
-        MedicoEntity newEntity = factory.manufacturePojo(MedicoEntity.class);
+    void testCrearEspecialidad() {
+        EspecialidadEntity newEntity = factory.manufacturePojo(EspecialidadEntity.class);
         
-        newEntity.setRegistro(
-            "RW" + newEntity.getRegistro().substring(2)
-        );
-        MedicoEntity result = medicoService.crearMedico(newEntity);
+        
+        newEntity.setDescripcion("1234567891011");
+        EspecialidadEntity result = especialidadService.crearEspecialidad(newEntity);
         assertNotNull(result);
         
-        MedicoEntity entity = entityManager.find(MedicoEntity.class, result.getId());
+        EspecialidadEntity entity = entityManager.find(EspecialidadEntity.class, result.getId());
         
         assertEquals(newEntity.getId(), entity.getId());
 		assertEquals(newEntity.getNombre(), entity.getNombre());
-        assertEquals(newEntity.getRegistro(), entity.getRegistro());
+		assertEquals(newEntity.getDescripcion(), entity.getDescripcion());
 
     
     }
-    }
+    
+}
